@@ -4,7 +4,7 @@ import org.tracker.data.Expense;
 import org.tracker.service.ExpenseService;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -46,7 +46,7 @@ public class UserInterface {
     }
 
     private void viewExpenses() {
-        List<Expense> expenses = expenseService.getAllExpenses();
+        ArrayList<Expense> expenses = expenseService.getAllExpenses();
         for (Expense expense : expenses) {
             System.out.println(expense);
         }

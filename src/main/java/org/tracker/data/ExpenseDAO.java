@@ -2,6 +2,8 @@ package org.tracker.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 
 
 import java.io.FileReader;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,22 +45,25 @@ public class ExpenseDAO {
     }
 
     public ArrayList<Expense> getExpenses() {
-        ArrayList<Expense> expenses;
+        ArrayList<Expense> expenses =  new ArrayList<>();
         try {
             boolean exists = Files.exists(expenseFile) && Files.size(expenseFile) > 0;
             if (exists) {
-                Reader reader = new FileReader(expenseFile.toFile());
+                Reader reader = new FileReader(expenseFile.toFile(), StandardCharsets.UTF_8);
                 Type listType = new TypeToken<ArrayList<Expense>>() {}.getType();
+
                 expenses = gson.fromJson(reader, listType);
+
+                if (expenses == null) {
+                    expenses = new ArrayList<>();
+                }
                 reader.close();
 
-                return expenses;
             }
 
         } catch (Exception e){
             e.printStackTrace();
         }
-        expenses = new ArrayList<>();
         return expenses;
 
     }

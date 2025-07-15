@@ -21,5 +21,15 @@ public class Expense {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "id=" + id + '\'' +
+                " amount=£" + amount +
+                " date=" + date +
+                " description=" + description +
+                '}';
+    }
+
 
 }

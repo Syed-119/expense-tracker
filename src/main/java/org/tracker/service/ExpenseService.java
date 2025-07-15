@@ -4,7 +4,8 @@ import org.tracker.data.Expense;
 import org.tracker.data.ExpenseDAO;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
+
 
 public class ExpenseService {
     private ExpenseDAO expenseDAO =  new ExpenseDAO();
@@ -15,7 +16,7 @@ public class ExpenseService {
 
     }
 
-    public List<Expense> getAllExpenses(){
+    public ArrayList<Expense> getAllExpenses(){
         return expenseDAO.getExpenses();
     }
 
