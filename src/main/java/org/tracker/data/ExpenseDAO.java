@@ -1,56 +1,64 @@
 package org.tracker.data;
-
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.json.JSONObject;
+
 
 import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-import org.json.simple.parser.JSONParser;
+
+
+
 
 public class ExpenseDAO {
     private static final Path expenseFile = Paths.get("expenses.json");
     private static ArrayList<Expense> expenses;
+    Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .create();
+
 
     public void addExpense(Expense expense) {
-        ObjectMapper mapper = new ObjectMapper();
-
         try {
-            Gson gson = new Gson();
-            Writer writer = Files.newBufferedWriter(expenseFile);
-            gson.toJson(expense, writer);
+            ArrayList<Expense> expenses = getExpenses();
+            expenses.add(expense);
+            Writer writer = Files.newBufferedWriter(expenseFile,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            gson.toJson(expenses, writer);
             writer.close();
+
             } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public ArrayList<Expense> getExpenses() {
-        if (expenseFile.toFile().exists()){
-            try {
-                FileReader reader = new FileReader(expenseFile.toFile());
-                Type type = new TypeToken<ArrayList<Expense>>(){}.getType();
-                Gson gson = new Gson();
-                expenses = gson.fromJson(reader, type);
-                for (Expense expense : expenses) {
-                    System.out.println(expense);
-                }
+        ArrayList<Expense> expenses;
+        try {
+            boolean exists = Files.exists(expenseFile) && Files.size(expenseFile) > 0;
+            if (exists) {
+                Reader reader = new FileReader(expenseFile.toFile());
+                Type listType = new TypeToken<ArrayList<Expense>>() {}.getType();
+                expenses = gson.fromJson(reader, listType);
+                reader.close();
 
-            }catch (Exception e){
-                e.printStackTrace();
+                return expenses;
             }
+
+        } catch (Exception e){
+            e.printStackTrace();
         }
+        expenses = new ArrayList<>();
+        return expenses;
+
     }
 }
