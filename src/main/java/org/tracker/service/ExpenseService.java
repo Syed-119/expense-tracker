@@ -20,5 +20,10 @@ public class ExpenseService {
         return expenseDAO.getExpenses();
     }
 
+    public void updateExpense(int id, LocalDate expenseDate, String description, double amount){
+        Expense newExpense = new Expense(description, amount, expenseDate, id);
+        expenseDAO.updateExpense(newExpense);
+    }
+
 
 }

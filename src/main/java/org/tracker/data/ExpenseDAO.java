@@ -67,4 +67,24 @@ public class ExpenseDAO {
         return expenses;
 
     }
+
+    public void updateExpense(Expense expense) {
+        try {
+            ArrayList<Expense> expenses = getExpenses();
+            for (Expense e : expenses) {
+                if (e.getId() == expense.getId()) {
+                    e.setAmount(expense.getAmount());
+                    e.setDate(expense.getDate());
+                    e.setDescription(expense.getDescription());
+                }
+            }
+
+            Writer writer = Files.newBufferedWriter(expenseFile,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            gson.toJson(expenses, writer);
+            writer.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
