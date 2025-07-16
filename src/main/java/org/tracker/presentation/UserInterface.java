@@ -6,7 +6,7 @@ import org.tracker.service.InputsHelper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 public class UserInterface {
     private ExpenseService expenseService = new ExpenseService();
