@@ -23,5 +23,9 @@ public class ExpenseService {
         expenseDAO.updateExpense(newExpense);
     }
 
+    public boolean deleteExpense(int id){
+        return expenseDAO.deleteExpense(id);
+    }
+
 
 }

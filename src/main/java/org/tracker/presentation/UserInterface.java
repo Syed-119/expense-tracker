@@ -18,7 +18,8 @@ public class UserInterface {
             System.out.println("\n1. Add Expense");
             System.out.println("2. View Expenses");
             System.out.println("3. Update an Expense");
-            System.out.println("4. Exit");
+            System.out.println("4. Delete an Expense");
+            System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             switch (choice) {
@@ -32,7 +33,10 @@ public class UserInterface {
                             updateExpense();
                             break;
                             case 4:
-                                System.exit(0);
+                                deleteExpesne();
+                                break;
+                                case 5:
+                                    System.exit(0);
             }
 
         }
@@ -75,6 +79,19 @@ public class UserInterface {
         Expense expense = new Expense(description, amount, expenseDate, id);
         expenseService.updateExpense(expense);
         System.out.print("Expense updated successfully ID:"+expense.getId());
+    }
+
+    private void deleteExpesne() {
+        boolean isDeleted;
+        System.out.print("Enter Expense ID: ");
+        int id = scanner.nextInt();
+        isDeleted = expenseService.deleteExpense(id);
+        if (isDeleted) {
+            System.out.print("Expense deleted successfully ID:"+id);
+        } else {
+            System.out.println("Expense not found");
+        }
+
     }
 
 }

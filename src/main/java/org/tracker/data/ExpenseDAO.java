@@ -85,4 +85,28 @@ public class ExpenseDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean deleteExpense(int id) {
+        boolean isDeleted = false;
+        try {
+            ArrayList<Expense> expenses = getExpenses();
+            for (Expense e : expenses) {
+                if (e.getId() == id) {
+                    expenses.remove(e);
+                    isDeleted = true;
+                }
+            }
+
+
+            Writer writer = Files.newBufferedWriter(expenseFile,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            gson.toJson(expenses, writer);
+            writer.close();
+            return isDeleted;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
