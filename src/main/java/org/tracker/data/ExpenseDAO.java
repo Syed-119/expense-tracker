@@ -2,12 +2,10 @@ package org.tracker.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import lombok.extern.slf4j.Slf4j;
-import lombok.extern.slf4j.XSlf4j;
+
 
 
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
@@ -66,5 +64,25 @@ public class ExpenseDAO {
         }
         return expenses;
 
+    }
+
+    public void updateExpense(Expense expense) {
+        try {
+            ArrayList<Expense> expenses = getExpenses();
+            for (Expense e : expenses) {
+                if (e.getId() == expense.getId()) {
+                    e.setAmount(expense.getAmount());
+                    e.setDate(expense.getDate());
+                    e.setDescription(expense.getDescription());
+                }
+            }
+
+            Writer writer = Files.newBufferedWriter(expenseFile,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            gson.toJson(expenses, writer);
+            writer.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
