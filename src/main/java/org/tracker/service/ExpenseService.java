@@ -27,5 +27,13 @@ public class ExpenseService {
         return expenseDAO.deleteExpense(id);
     }
 
+    public double getAllExpensesAmount(ArrayList<Expense> expenses){
+        return expenseDAO.getAllExpensesSummary(expenses);
+    }
+
+    public double getMonthlyExpensesAmount(ArrayList<Expense> expenses, int month){
+        return expenseDAO.getMonthlyExpensesSummary(expenses, month);
+    }
+
 
 }

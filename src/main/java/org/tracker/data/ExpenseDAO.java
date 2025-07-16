@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 
 
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
@@ -23,19 +24,23 @@ import java.util.ArrayList;
 
 public class ExpenseDAO {
     private static final Path expenseFile = Paths.get("expenses.json");
-    private static ArrayList<Expense> expenses;
     Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .create();
+
+
+    private void writeExpenses(ArrayList<Expense> expenses) throws IOException {
+        Writer writer = Files.newBufferedWriter(expenseFile,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        gson.toJson(expenses, writer);
+        writer.close();
+    }
 
 
     public void addExpense(Expense expense) {
         try {
             ArrayList<Expense> expenses = getExpenses();
             expenses.add(expense);
-            Writer writer = Files.newBufferedWriter(expenseFile,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            gson.toJson(expenses, writer);
-            writer.close();
+            writeExpenses(expenses);
 
             } catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +56,6 @@ public class ExpenseDAO {
                 Type listType = new TypeToken<ArrayList<Expense>>() {}.getType();
 
                 expenses = gson.fromJson(reader, listType);
-
                 if (expenses == null) {
                     expenses = new ArrayList<>();
                 }
@@ -77,9 +81,7 @@ public class ExpenseDAO {
                 }
             }
 
-            Writer writer = Files.newBufferedWriter(expenseFile,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            gson.toJson(expenses, writer);
-            writer.close();
+            writeExpenses(expenses);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,10 +99,7 @@ public class ExpenseDAO {
                 }
             }
 
-
-            Writer writer = Files.newBufferedWriter(expenseFile,  StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            gson.toJson(expenses, writer);
-            writer.close();
+            writeExpenses(expenses);
             return isDeleted;
 
 
@@ -109,4 +108,25 @@ public class ExpenseDAO {
         }
         return false;
     }
+
+    public double getAllExpensesSummary(ArrayList<Expense> expenses) {
+        double allExpensesSummary = 0;
+        for (Expense e : expenses) {
+            allExpensesSummary += e.getAmount();
+        }
+        return allExpensesSummary;
+    }
+
+    public double getMonthlyExpensesSummary(ArrayList<Expense> expenses, int month) {
+        double monthlyExpensesSummary = 0;
+        for (Expense e : expenses) {
+            int expenseMonth = e.getDate().getMonthValue();
+            if (expenseMonth == month) {
+                monthlyExpensesSummary += e.getAmount();
+            }
+        }
+        return monthlyExpensesSummary;
+    }
+
+
 }

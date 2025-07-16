@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class UserInterface {
     private ExpenseService expenseService = new ExpenseService();
-
     private Scanner scanner = new Scanner(System.in);
 
     public void showMenu() {
@@ -19,7 +18,9 @@ public class UserInterface {
             System.out.println("2. View Expenses");
             System.out.println("3. Update an Expense");
             System.out.println("4. Delete an Expense");
-            System.out.println("5. Exit");
+            System.out.println("5. View All Expenses Amount Summary");
+            System.out.println("6. View Monthly Expense Amount Summary");
+            System.out.println("7. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             switch (choice) {
@@ -36,7 +37,13 @@ public class UserInterface {
                                 deleteExpesne();
                                 break;
                                 case 5:
-                                    System.exit(0);
+                                    getAllExpensesSummary();
+                                    break;
+                                    case 6:
+                                        getMonthlyExpensesSummary();
+                                        break;
+                                        case 7:
+                                            System.exit(0);
             }
 
         }
@@ -92,6 +99,30 @@ public class UserInterface {
             System.out.println("Expense not found");
         }
 
+    }
+
+    private void getAllExpensesSummary(){
+        double allExpensesSummary;
+        ArrayList<Expense> expenses = expenseService.getAllExpenses();
+        allExpensesSummary = expenseService.getAllExpensesAmount(expenses);
+        if (allExpensesSummary == 0) {
+            System.out.println("No expenses found");
+        } else {
+            System.out.println("Total expenses amount: "+allExpensesSummary);
+        }
+    }
+
+    private void getMonthlyExpensesSummary(){
+        double monthlyExpensesSummary;
+        ArrayList<Expense> expenses = expenseService.getAllExpenses();
+        System.out.print("Enter the Month number (e.g. 1-12): ");
+        int month = scanner.nextInt();
+        monthlyExpensesSummary = expenseService.getMonthlyExpensesAmount(expenses, month);
+        if (monthlyExpensesSummary == 0) {
+            System.out.println("No expenses found");
+        } else {
+            System.out.println("Total monthly expenses amount: "+monthlyExpensesSummary);
+        }
     }
 
 }
