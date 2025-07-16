@@ -2,12 +2,10 @@ package org.tracker.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import lombok.extern.slf4j.Slf4j;
-import lombok.extern.slf4j.XSlf4j;
+
 
 
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;

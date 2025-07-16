@@ -2,16 +2,14 @@ package org.tracker.service;
 
 import org.tracker.data.Expense;
 import org.tracker.data.ExpenseDAO;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 
 public class ExpenseService {
     private ExpenseDAO expenseDAO =  new ExpenseDAO();
 
-    public void addExpense(int id, LocalDate expenseDate, String description, double amount){
-        Expense newExpense = new Expense(description, amount, expenseDate, id);
+    public void addExpense(Expense expense){
+        Expense newExpense = new Expense(expense.getDescription(), expense.getAmount(), expense.getDate(), expense.getId());
         expenseDAO.addExpense(newExpense);
 
     }
@@ -20,8 +18,8 @@ public class ExpenseService {
         return expenseDAO.getExpenses();
     }
 
-    public void updateExpense(int id, LocalDate expenseDate, String description, double amount){
-        Expense newExpense = new Expense(description, amount, expenseDate, id);
+    public void updateExpense(Expense expense){
+        Expense newExpense = new Expense(expense.getDescription(), expense.getAmount(), expense.getDate(), expense.getId());
         expenseDAO.updateExpense(newExpense);
     }
 

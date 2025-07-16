@@ -13,7 +13,8 @@ public class UserInterface {
     private Scanner scanner = new Scanner(System.in);
 
     public void showMenu() {
-        while (true) {
+        while (true)
+        {
             System.out.println("\n1. Add Expense");
             System.out.println("2. View Expenses");
             System.out.println("3. Update an Expense");
@@ -27,6 +28,11 @@ public class UserInterface {
                     case 2:
                         viewExpenses();
                         break;
+                        case 3:
+                            updateExpense();
+                            break;
+                            case 4:
+                                System.exit(0);
             }
 
         }
@@ -41,15 +47,34 @@ public class UserInterface {
         int amount = scanner.nextInt();
         LocalDate expenseDate = LocalDate.now();
         Expense expense = new Expense(description, amount, expenseDate, id);
-        expenseService.addExpense(id, expenseDate, description, amount);
+        expenseService.addExpense(expense);
         System.out.print("Expense added successfully ID:"+expense.getId());
     }
 
     private void viewExpenses() {
         ArrayList<Expense> expenses = expenseService.getAllExpenses();
-        for (Expense expense : expenses) {
-            System.out.println(expense);
+        if (expenses.size() > 0) {
+            for (Expense expense : expenses) {
+                System.out.println(expense);
+            }
         }
+        else {
+            System.out.println("No expenses found");
+        }
+
+    }
+
+    private void updateExpense() {
+        System.out.print("Enter Expense ID: ");
+        int id = scanner.nextInt();
+        System.out.print("Enter New Expense Description: ");
+        String description = scanner.next();
+        System.out.print("Enter New Expense Amount: ");
+        int amount = scanner.nextInt();
+        LocalDate expenseDate = LocalDate.now();
+        Expense expense = new Expense(description, amount, expenseDate, id);
+        expenseService.updateExpense(expense);
+        System.out.print("Expense updated successfully ID:"+expense.getId());
     }
 
 }
