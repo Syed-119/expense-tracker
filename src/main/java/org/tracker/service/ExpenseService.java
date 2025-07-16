@@ -8,9 +8,10 @@ import java.util.ArrayList;
 public class ExpenseService {
     private ExpenseDAO expenseDAO =  new ExpenseDAO();
 
-    public void addExpense(Expense expense){
+    public boolean addExpense(Expense expense){
         Expense newExpense = new Expense(expense.getDescription(), expense.getAmount(), expense.getDate(), expense.getId());
-        expenseDAO.addExpense(newExpense);
+        return expenseDAO.addExpense(newExpense);
+
 
     }
 

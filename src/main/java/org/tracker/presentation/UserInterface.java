@@ -55,8 +55,14 @@ public class UserInterface {
         double amount = inputsHelper.amountPrompt();
         LocalDate expenseDate = LocalDate.now();
         Expense expense = new Expense(description, amount, expenseDate, id);
-        expenseService.addExpense(expense);
-        System.out.print("Expense added successfully ID:"+expense.getId());
+        boolean adding = expenseService.addExpense(expense);
+        if (adding) {
+            System.out.print("Expense added successfully ID:"+expense.getId());
+        }
+        else {
+            System.out.print("Expense not added successfully ID already exists:"+expense.getId());
+        }
+
     }
 
     private void viewExpenses() {

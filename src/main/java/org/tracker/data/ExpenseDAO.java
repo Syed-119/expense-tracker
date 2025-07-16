@@ -26,6 +26,7 @@ public class ExpenseDAO {
     private static final Path expenseFile = Paths.get("expenses.json");
     Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .setPrettyPrinting()
             .create();
 
 
@@ -36,15 +37,22 @@ public class ExpenseDAO {
     }
 
 
-    public void addExpense(Expense expense) {
+    public boolean addExpense(Expense expense) {
         try {
             ArrayList<Expense> expenses = getExpenses();
+            for (Expense e : expenses) {
+                if (e.getId() == expense.getId()) {
+                    return false;
+                }
+            }
             expenses.add(expense);
             writeExpenses(expenses);
+            return true;
 
             } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public ArrayList<Expense> getExpenses() {

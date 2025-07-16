@@ -6,16 +6,21 @@ public class InputsHelper {
     private Scanner scanner = new Scanner(System.in);
 
     public int idPrompt(){
-        String id;
+        String idInput;
         while (true){
             System.out.print("Enter expense id : ");
-            id = scanner.next();
-            if (id == null || id.trim().isEmpty()) {
-                System.out.println("Input cannot be empty. Please enter a number.");
+            idInput = scanner.next();
+            if (idInput == null || idInput.trim().isEmpty()) {
+                System.out.println("Input cannot be empty or less than 0. Please enter a number.");
                 continue;
             }
                 try {
-                    return Integer.parseInt(id.trim());
+                    int id = Integer.parseInt(idInput.trim());
+                     if (id<0){
+                         System.out.println("Input cannot be less than 0. Please enter a number.");
+                         continue;
+                     }
+                    return id;
                 } catch (NumberFormatException e) {
                     System.out.println("Thats not a valid whole number. Please enter a valid number.");
                 }
@@ -37,16 +42,21 @@ public class InputsHelper {
     }
 
     public double amountPrompt() {
-        String amount;
+        String amountInput;
         while (true){
             System.out.print("Enter expense amount : ");
-            amount = scanner.next();
-            if (amount == null || amount.trim().isEmpty()) {
+            amountInput = scanner.next();
+            if (amountInput == null || amountInput.trim().isEmpty()) {
                 System.out.println("Input cannot be empty. Please enter a number.");
                 continue;
             }
             try {
-                return Double.parseDouble(amount.trim());
+                double amount = Double.parseDouble(amountInput.trim());
+                if (amount<0){
+                    System.out.println("Input cannot be less than 0. Please enter a number.");
+                    continue;
+                }
+                return amount;
             } catch (NumberFormatException e) {
                 System.out.println("Thats not a valid number. Please enter a valid number.");
             }
@@ -54,16 +64,21 @@ public class InputsHelper {
     }
 
     public int monthPrompt() {
-        String month;
+        String monthInput;
         while (true){
             System.out.print("Enter the Month number (e.g. 1-12): ");
-            month = scanner.next();
-            if (month == null || month.trim().isEmpty()) {
+            monthInput = scanner.next();
+            if (monthInput == null || monthInput.trim().isEmpty()) {
                 System.out.println("Input cannot be empty. Please enter a number.");
                 continue;
             }
             try {
-                return Integer.parseInt(month.trim());
+                int month = Integer.parseInt(monthInput.trim());
+                if (month<0){
+                    System.out.println("Input cannot be less than 0. Please enter a number.");
+                    continue;
+                }
+                return month;
             } catch (NumberFormatException e) {
                 System.out.println("Thats not a valid number. Please enter a valid number.");
             }
@@ -71,16 +86,21 @@ public class InputsHelper {
     }
 
     public int choicePrompt(){
-        String id;
+        String choiceInput;
         while (true){
             System.out.print("Enter your choice : ");
-            id = scanner.next();
-            if (id == null || id.trim().isEmpty()) {
+            choiceInput = scanner.next();
+            if (choiceInput == null || choiceInput.trim().isEmpty()) {
                 System.out.println("Input cannot be empty. Please enter a number.");
                 continue;
             }
             try {
-                return Integer.parseInt(id.trim());
+                int choice = Integer.parseInt(choiceInput.trim());
+                if (choice<0){
+                    System.out.println("Input cannot be less than 0. Please enter a number.");
+                    continue;
+                }
+                return choice;
             } catch (NumberFormatException e) {
                 System.out.println("Thats not a valid whole number. Please enter a valid number.");
             }
