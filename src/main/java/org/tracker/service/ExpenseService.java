@@ -35,5 +35,9 @@ public class ExpenseService {
         return expenseDAO.getMonthlyExpensesSummary(expenses, month);
     }
 
+    public <T> boolean checkForNullValues(T input){
+        return input != null;
+    }
+
 
 }
